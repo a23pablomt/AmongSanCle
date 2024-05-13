@@ -15,6 +15,7 @@ public class Juego {
             System.out.println("Ronda " + ronda);
             System.out.println("--------------------");
             printAcciones();
+            rondaAsesinatos();
             if (checkFinRondaEstudiantes()) {
                 ganadores = "Estudiantes";
                 finalizar = true;
@@ -23,6 +24,7 @@ public class Juego {
                 ganadores = "Impostores";
                 finalizar = true;
             }
+
         }
 
         System.out.println("Ganan los " + ganadores);
@@ -101,5 +103,20 @@ public class Juego {
         }
         if(impostoresVivos >= estudiantesVivos) return true;
         else return false;
+    }
+
+    private void rondaAsesinatos() {
+        for(Jugador jugador : singleton.getConfig().getJugadores()){
+            if(jugador instanceof Impostor){
+                for(Jugador jugador2 : singleton.getConfig().getJugadores()){
+                    if(jugador2 instanceof Estudiante && jugador2.getEstaVivo()){
+                        if(jugador.getAlias().equals(jugador2.getAlias())) continue;
+                        if(jugador.getSiguienteTarea().getHabitacion().equals(jugador2.getSiguienteTarea().getHabitacion()) && Math.random() < 0.5){
+                            jugador2.matar();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
