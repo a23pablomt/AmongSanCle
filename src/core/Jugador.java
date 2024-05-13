@@ -3,7 +3,7 @@ package core;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-public abstract class Jugador {
+public class Jugador {
     
     String alias;
     Queue<Tarea> tareas;
@@ -13,6 +13,13 @@ public abstract class Jugador {
         this.alias = alias;
         this.tareas = new ArrayDeque<>();
         this.estaVivo = true;
+    }
+
+    public Jugador cloneInicial() {
+        Jugador theClone = new Jugador(this.alias);
+        theClone.tareas = new ArrayDeque<>();
+        theClone.estaVivo = true;
+        return theClone;
     }
 
     public void addTarea(Tarea tarea) {
@@ -32,7 +39,6 @@ public abstract class Jugador {
     }
 
     public Tarea getSiguienteTarea() {
-        System.out.println(this.tareas.size());
         return this.tareas.peek();
     }
 
@@ -49,5 +55,9 @@ public abstract class Jugador {
 
     public boolean comprobarSinTareas() {
         return (this.estaVivo == false || this.tareas.isEmpty() == true);
+    }
+
+    public void realizarTarea() {
+        this.tareas.poll();
     }
 }

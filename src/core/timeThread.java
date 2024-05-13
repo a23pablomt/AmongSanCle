@@ -1,14 +1,17 @@
-static class timeThread extends Thread {
-        public void run() {
-            try {
-                Thread.sleep(LIMIT_TIME * 1000);
-                timeOut = true;
-                return;
-            } catch (InterruptedException e) {
-                return;
-            }
+package core;
+
+public final class timeThread extends Thread {
+    private boolean timeOut = false;
+    public void run() {
+        try {
+            Thread.sleep(Singleton.getInstance().getConfig().getTiempoLimite() * 1000);
+            timeOut = true;
+            return;
+        } catch (InterruptedException e) {
+            return;
         }
     }
+
 
     public String readStringWithTimeout() {
         Thread timeThread = new timeThread();
@@ -17,7 +20,7 @@ static class timeThread extends Thread {
 
         String input = "";
         try {
-            input = scanner.nextLine();
+            input = Singleton.getInstance().getScanner().nextLine();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -30,4 +33,9 @@ static class timeThread extends Thread {
         else {
             return input;
         }
-    } 
+    }
+
+    public boolean isTimeOut() {
+        return timeOut;
+    }
+}

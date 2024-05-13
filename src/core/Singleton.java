@@ -1,9 +1,11 @@
 package core;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Singleton {
     private static Singleton instanciaUnica;
     private Config instanciaConfig;
+    private Config configInicial;
 
     private Scanner sc;
     private Singleton() {
@@ -26,4 +28,30 @@ public class Singleton {
         }
         return this.instanciaConfig;
     }
+
+    public void setConfigInicial(Config config) {
+        this.configInicial = config;
+    }
+
+    public Config resetConfig() {
+        this.instanciaConfig = this.configInicial;
+        return this.instanciaConfig;
+    }
+
+    public Config getConfigInicial() {
+        return this.configInicial;
+    }
+
+    public Config CloneInObject(Config theClone) {
+        theClone.jugadores = new ArrayList<>();
+        theClone.tareas = new ArrayList<>();
+        for(Jugador j : this.instanciaConfig.jugadores) {
+            theClone.jugadores.add(j.cloneInicial());
+        }
+        for(Tarea t : this.instanciaConfig.tareas) {
+            theClone.tareas.add(t.cloneInicial());
+        }
+        return theClone;
+    }
+
 }

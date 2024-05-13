@@ -7,6 +7,7 @@ public class Juego {
         int ronda = 0;
         String ganadores = "Nadie";
 
+        
         asignarRoles(); //Hay que asignar los roles antes de las tareas para evitar errores
         asignarTareas();
 
@@ -16,15 +17,38 @@ public class Juego {
             System.out.println("--------------------");
             printAcciones();
             rondaAsesinatos();
+            realizaTareaS();
             if (checkFinRondaEstudiantes()) {
                 ganadores = "Estudiantes";
                 finalizar = true;
             }
             else if(checkFinRondaImpostores()){
-                ganadores = "Impostores";
-                finalizar = true;
+                    ganadores = "Impostores";
+                    finalizar = true;
+                }
+            if(!finalizar){
+                System.out.println("Elija un jugador para expulsar: ");
+                singleton.getConfig().printJugadores();
+                String nombre = singleton.getScanner().next();
+                boolean expulsion = false;
+                while(!expulsion){
+                    for (Jugador jugador : singleton.getConfig().getJugadores()) {
+                        if(jugador.getAlias().equals(nombre) && jugador.getEstaVivo()){
+                            jugador.matar();
+                            System.out.println(jugador.getAlias() + " ha sido expulsado");
+                            if (jugador instanceof Impostor) {
+                                System.out.println("Era un impostor");
+                            }
+                            else System.out.println("Era un estudiante");
+                            expulsion = true;
+                        }
+                    }
+                    if(expulsion) break;
+                    System.out.println("Jugador no válido, reintente: ");
+                    nombre = singleton.getScanner().next();
+                }
             }
-
+            
         }
 
         System.out.println("Ganan los " + ganadores);
@@ -39,6 +63,12 @@ public class Juego {
                 singleton.getConfig().getJugadores().get(i).getSiguienteTarea().getNombre() + " en " + 
                 singleton.getConfig().getJugadores().get(i).getSiguienteTarea().getHabitacion().getNombre());
             }
+        }
+    }
+
+    private void realizaTareaS(){
+        for (int i = 0; i < singleton.getConfig().getJugadores().size(); i++) {
+            singleton.getConfig().getJugadores().get(i).realizarTarea();
         }
     }
 
@@ -73,12 +103,12 @@ public class Juego {
         }
     
     public void asignarRoles() {
-        for(int a = 0; a < 1000; a++)shuffleJugadores();
+        shuffleJugadores();
         int numImpostores = Math.max(1, singleton.getConfig().getJugadores().size()/4);
         for (int i = 0; i < numImpostores; i++) {
             convertirImpostor(singleton.getConfig().getJugadores().get((int) Math.random() * (singleton.getConfig().getJugadores().size()-1)));
         }
-        for (int i = 0; i < singleton.getConfig().getJugadores().size()-numImpostores; i++) {
+        for (int i = numImpostores; i < singleton.getConfig().getJugadores().size(); i++) {
             convertirEstudiante(singleton.getConfig().getJugadores().get(i));
         }
         singleton.getConfig().sortJugadores();
@@ -86,10 +116,13 @@ public class Juego {
 
     private boolean checkFinRondaEstudiantes() {
         boolean quedanTareas = false;
+        boolean quedanImpostores = false;
         for(Jugador jugador : singleton.getConfig().getJugadores()){
             quedanTareas = quedanTareas || !jugador.comprobarSinTareas();
+            quedanImpostores = quedanImpostores || jugador instanceof Impostor;
         }
-        return !quedanTareas;
+        if(!quedanImpostores) return true;
+        else return !quedanTareas;
     }
 
     private boolean checkFinRondaImpostores() {
@@ -107,11 +140,12 @@ public class Juego {
 
     private void rondaAsesinatos() {
         for(Jugador jugador : singleton.getConfig().getJugadores()){
-            if(jugador instanceof Impostor){
+            if(jugador instanceof Impostor && jugador.getEstaVivo()){
                 for(Jugador jugador2 : singleton.getConfig().getJugadores()){
                     if(jugador2 instanceof Estudiante && jugador2.getEstaVivo()){
                         if(jugador.getAlias().equals(jugador2.getAlias())) continue;
-                        if(jugador.getSiguienteTarea().getHabitacion().equals(jugador2.getSiguienteTarea().getHabitacion()) && Math.random() < 0.5){
+                        if(jugador.getSiguienteTarea().getHabitacion().getNombre().equals(jugador2.getSiguienteTarea().getHabitacion().getNombre()) && Math.random() < 0.5){
+                            System.out.println(jugador.getAlias() + " ha matado a " + jugador2.getAlias());
                             jugador2.matar();
                         }
                     }

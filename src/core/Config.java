@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
+    protected timeThread tiempo = new timeThread();
     protected List<Tarea> tareas = new ArrayList<>();
     protected List<Jugador> jugadores = new ArrayList<>();
     protected Habitacion[] habitaciones;
@@ -74,7 +75,7 @@ public class Config {
         List<Jugador> sortedJugadores = sortedJugadores();
         System.out.println("\nJugadores: \n--------------------");
         for (Jugador jugador : sortedJugadores) {
-            System.out.println(i +". " + jugador.getAlias());
+            if(jugador.getEstaVivo()) System.out.println(i +". " + jugador.getAlias());
             i++;
         }
     }
@@ -86,6 +87,11 @@ public class Config {
     public Tarea getRandomTarea() {
         return tareas.get((int) (Math.random() * (tareas.size()-1)));
     }
+
+    public int getTiempoLimite(){
+        return 30;
+    }
+
 
     //
     public void crearDatosEjemplo() {

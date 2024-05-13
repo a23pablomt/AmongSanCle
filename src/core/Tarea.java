@@ -9,6 +9,11 @@ public class Tarea {
         this.habitacion = habitacion;
     }
 
+    public Tarea cloneInicial() {
+        Tarea theClone = new Tarea(this.nombre, this.habitacion);
+        return theClone;
+    }
+
     public String getNombre() {
         return nombre;
     }

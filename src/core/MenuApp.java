@@ -59,7 +59,7 @@ class Menu extends ComponenteMenu {
         }
         if(numMenu==this.hijos.size()){//si el usuario elige salir
             if(this.padre==null){// si el padre es null, es el menú principal y salimos de la aplicación
-                System.out.println("Fin App. Adios");
+                System.out.println("Estudiantes liberados\nImpostores apresados\nFin del juego");
                 System.exit(0);
             }else{
                 this.padre.ejecutar();
@@ -142,6 +142,10 @@ class MenuItem extends ComponenteMenu {
 
             //
 
+            case "configurarTiempo": {
+                
+                break;
+            }
             
 
             case "jugar": {
