@@ -49,6 +49,7 @@ class Menu extends ComponenteMenu {
             }
             System.out.println(hijos.size() + ". Salir");
             System.out.println("Teclea un número de opción");
+            singleton.resetScanner();
             String opcion = sc.nextLine();
             if (opcion.matches("\\d+")){
                 int numOpcion = Integer.parseInt(opcion);

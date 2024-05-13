@@ -6,17 +6,19 @@ public final class timeThread extends Thread {
         try {
             Thread.sleep(Singleton.getInstance().getConfig().getTiempoLimite() * 1000);
             timeOut = true;
+            System.out.println("Se ha acabado el tiempo. Pulse [ENTER] para continuar.");
             return;
         } catch (InterruptedException e) {
             return;
         }
     }
+    public boolean getTimeout() {
+        return timeOut;
+    }
 
-
-    public String readStringWithTimeout() {
-        Thread timeThread = new timeThread();
-        timeThread.start();
-        timeOut = false;
+    public static String readStringWithTimeout() {
+        timeThread TimeThread = new timeThread();
+        TimeThread.start();
 
         String input = "";
         try {
@@ -24,18 +26,14 @@ public final class timeThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            timeThread.interrupt();
+            TimeThread.interrupt();
         }
 
-        if(timeOut) {
-            return "Tiempo Excedido";
+        if(TimeThread.getTimeout()) {
+            return "";
         }
         else {
             return input;
         }
-    }
-
-    public boolean isTimeOut() {
-        return timeOut;
     }
 }

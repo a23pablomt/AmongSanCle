@@ -6,14 +6,16 @@ public class Juego {
         boolean finalizar = false;
         int ronda = 0;
         String ganadores = "Nadie";
+        Config ConfigInicial= null;
 
-        
+        ConfigInicial=singleton.getConfig().clone();
+
         asignarRoles(); //Hay que asignar los roles antes de las tareas para evitar errores
         asignarTareas();
 
-        while(finalizar == false){
+        while(!finalizar){
             ronda++;
-            System.out.println("Ronda " + ronda);
+            System.out.println("\nRonda " + ronda);
             System.out.println("--------------------");
             printAcciones();
             rondaAsesinatos();
@@ -29,7 +31,8 @@ public class Juego {
             if(!finalizar){
                 System.out.println("Elija un jugador para expulsar: ");
                 singleton.getConfig().printJugadores();
-                String nombre = singleton.getScanner().next();
+                String nombre = timeThread.readStringWithTimeout();
+                //String nombre = singleton.getScanner().next();
                 boolean expulsion = false;
                 while(!expulsion){
                     for (Jugador jugador : singleton.getConfig().getJugadores()) {
@@ -52,6 +55,8 @@ public class Juego {
         }
 
         System.out.println("Ganan los " + ganadores);
+
+        singleton.setConfig(ConfigInicial);
     }
 
     static Singleton singleton = Singleton.getInstance();
@@ -61,7 +66,8 @@ public class Juego {
             if(singleton.getConfig().getJugadores().get(i).getEstaVivo()){
                 System.out.println(singleton.getConfig().getJugadores().get(i).getAlias() + ", " + 
                 singleton.getConfig().getJugadores().get(i).getSiguienteTarea().getNombre() + " en " + 
-                singleton.getConfig().getJugadores().get(i).getSiguienteTarea().getHabitacion().getNombre());
+                singleton.getConfig().getJugadores().get(i).getSiguienteTarea().getHabitacion().getNombre()+ " (" + (singleton.getConfig().getJugadores().get(i) instanceof Impostor?"I":"E") + ")"
+                );
             }
         }
     }
@@ -119,7 +125,7 @@ public class Juego {
         boolean quedanImpostores = false;
         for(Jugador jugador : singleton.getConfig().getJugadores()){
             quedanTareas = quedanTareas || !jugador.comprobarSinTareas();
-            quedanImpostores = quedanImpostores || jugador instanceof Impostor;
+            quedanImpostores = quedanImpostores || (jugador instanceof Impostor && jugador.getEstaVivo());
         }
         if(!quedanImpostores) return true;
         else return !quedanTareas;

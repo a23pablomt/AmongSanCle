@@ -89,7 +89,7 @@ public class Config {
     }
 
     public int getTiempoLimite(){
-        return 30;
+        return 2;
     }
 
 
@@ -119,5 +119,22 @@ public class Config {
         jugadores.add(new Estudiante("@ana"));
         sortJugadores();
     }
-    
+
+    public Config clone() {
+        Config theClone = new Config();
+        theClone.jugadores = new ArrayList<>();
+        theClone.tareas = new ArrayList<>();
+        theClone.tiempo = this.tiempo;
+        for(Jugador j : this.jugadores) {
+            theClone.jugadores.add(j.cloneInicial());
+        }
+        for(Tarea t : this.tareas) {
+            theClone.tareas.add(t.cloneInicial());
+        }
+        return theClone;
+    }
+
+    public timeThread getTiempo() {
+        return tiempo;
+    }
 }
