@@ -83,11 +83,20 @@ class MenuItem extends ComponenteMenu {
     void ejecutar() {//aquí ejecutar es ejecutar un conjunto de instrucciones que podemos llamar comando
         switch (this.id) {
             case "addTarea": {
+                int habitacionTarea = -1;
                 System.out.println("Escribe un nombre para la tarea: ");
                 String nombreTarea = sc.nextLine();
                 System.out.println("Escribe una habitación para la tarea (0-8): ");
                 Singleton.getInstance().getConfig().printHabitaciones();
-                int habitacionTarea = sc.nextInt();
+                while (habitacionTarea == -1){
+                    try {
+                        habitacionTarea = sc.nextInt();
+                    } catch (Exception e) {
+                        System.out.println("Habitación no válida");
+                    } finally {
+                        sc.nextLine(); //limpiar buffer
+                    }
+                }
                 if(inRange(habitacionTarea, 0, singleton.getConfig().getNumHabitaciones()-1)){
                     singleton.getConfig().getTareas().add(new Tarea(nombreTarea, singleton.getConfig().getHabitacion(habitacionTarea)));
                 }
@@ -129,6 +138,7 @@ class MenuItem extends ComponenteMenu {
                 System.out.println("Escribe el nombre del jugador a eliminar: ");
                 singleton.getConfig().printJugadores();
                 int numJugador = sc.nextInt();
+                sc.nextLine(); //limpiar buffer
                 if(inRange(numJugador, 0, singleton.getConfig().getJugadores().size()-1)){
                     singleton.getConfig().getJugadores().remove(numJugador);
                 }
@@ -146,6 +156,7 @@ class MenuItem extends ComponenteMenu {
             case "configurarTiempo": {
                 System.out.println("Escribe el tiempo máximo en segundos: ");
                 int tiempo = sc.nextInt();
+                sc.nextLine(); //limpiar buffer
                 singleton.getConfig().setLimitTime(tiempo);
                 break;
             }

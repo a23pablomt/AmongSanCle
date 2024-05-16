@@ -30,7 +30,7 @@ public class Juego {
                 }
             printFeed();
             if(!finalizar){
-                System.out.println("Elija un jugador para expulsar: ");
+                System.out.println("Elija un jugador para expulsar (ENTER para saltar expulsión esta ronda): ");
                 singleton.getConfig().printJugadores();
                 String nombre = timeThread.readStringWithTimeout();
                 //String nombre = singleton.getScanner().next();
@@ -53,7 +53,7 @@ public class Juego {
                         break;
                     }
                     System.out.println("Jugador no válido, reintente: ");
-                    nombre = singleton.getScanner().next();
+                    nombre = singleton.getScanner().nextLine();
                 }
             }
             
@@ -86,42 +86,49 @@ public class Juego {
     public void asignarTareas() {
         for (int i = 0; i < singleton.getConfig().getJugadores().size(); i++) {
             for (int j = 0; j < 5; j++) {
-            singleton.getConfig().getJugadores().get(i).addTarea(singleton.getConfig().getRandomTarea());;
-        }
+                singleton.getConfig().getJugadores().get(i).addTarea(singleton.getConfig().getRandomTarea());
+            }
         }
         
     }
 
-    public void convertirImpostor(Jugador jugador) {
-            Impostor impostor = new Impostor(jugador.getAlias());
-            singleton.getConfig().getJugadores().remove(jugador);
-            singleton.getConfig().getJugadores().add(impostor);
-        }
+    public void convertirImpostor(Jugador jugador, int index) {
+        Impostor impostor = new Impostor(jugador.getAlias());
+        singleton.getConfig().getJugadores().remove(index);
+        singleton.getConfig().getJugadores().add(index, impostor);
+    }
 
-        public void convertirEstudiante(Jugador jugador) {
-            Estudiante estudiante = new Estudiante(jugador.getAlias());
-            singleton.getConfig().getJugadores().remove(jugador);
-            singleton.getConfig().getJugadores().add(estudiante);
-        }
+    public void convertirEstudiante(Jugador jugador, int index) {
+        Estudiante estudiante = new Estudiante(jugador.getAlias());
+        singleton.getConfig().getJugadores().remove(index);
+        singleton.getConfig().getJugadores().add(index, estudiante);
+    }
 
-        public void shuffleJugadores() {
-            for (int i = 0; i < singleton.getConfig().getJugadores().size(); i++) {
-                int randomIndex = (int) (Math.random() * singleton.getConfig().getJugadores().size()-1);
-                Jugador temp = singleton.getConfig().getJugadores().get(i);
-                singleton.getConfig().getJugadores().set(i, singleton.getConfig().getJugadores().get(randomIndex));
-                singleton.getConfig().getJugadores().set(randomIndex, temp);
-            }
+    public void shuffleJugadores() {
+        for (int i = 0; i < singleton.getConfig().getJugadores().size(); i++) {
+            int randomIndex = (int) (Math.random() * singleton.getConfig().getJugadores().size()-1);
+            Jugador temp = singleton.getConfig().getJugadores().get(i);
+            singleton.getConfig().getJugadores().set(i, singleton.getConfig().getJugadores().get(randomIndex));
+            singleton.getConfig().getJugadores().set(randomIndex, temp);
         }
+    }
     
     public void asignarRoles() {
+        /*for(Jugador jugador : singleton.getConfig().getJugadores()){
+            System.out.println(jugador.getAlias() + " es " + (jugador.getClass()));
+        }*/
         shuffleJugadores();
         int numImpostores = Math.max(1, singleton.getConfig().getJugadores().size()/4);
+        for (int i = 0; i < singleton.getConfig().getJugadores().size(); i++) {
+            convertirEstudiante(singleton.getConfig().getJugadores().get(i), i);
+        }
         for (int i = 0; i < numImpostores; i++) {
-            convertirImpostor(singleton.getConfig().getJugadores().get((int) Math.random() * (singleton.getConfig().getJugadores().size()-1)));
+            convertirImpostor(singleton.getConfig().getJugadores().get(i), i);
         }
-        for (int i = numImpostores; i < singleton.getConfig().getJugadores().size(); i++) {
-            convertirEstudiante(singleton.getConfig().getJugadores().get(i));
-        }
+        
+        /*for(Jugador jugador : singleton.getConfig().getJugadores()){
+            System.out.println(jugador.getAlias() + " es " + (jugador.getClass()));
+        }*/
         singleton.getConfig().sortJugadores();
     }
 

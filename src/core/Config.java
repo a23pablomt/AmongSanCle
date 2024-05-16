@@ -113,11 +113,11 @@ public class Config {
         tareas.add(new Tarea("Limpiar el dormitorio 2", habitaciones[6]));
         sortTareas();
 
-        jugadores.add(new Estudiante("@jua"));
-        jugadores.add(new Estudiante("@pep"));
-        jugadores.add(new Estudiante("@mar"));
-        jugadores.add(new Estudiante("@lui"));
-        jugadores.add(new Estudiante("@ana"));
+        jugadores.add(new Jugador("@jua"));
+        jugadores.add(new Jugador("@pep"));
+        jugadores.add(new Jugador("@mar"));
+        jugadores.add(new Jugador("@lui"));
+        jugadores.add(new Jugador("@ana"));
         sortJugadores();
     }
 
