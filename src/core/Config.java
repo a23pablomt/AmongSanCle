@@ -11,16 +11,14 @@ public class Config {
     protected Habitacion[] habitaciones;
 
     public Config() {
-        this.habitaciones = new Habitacion[9];
-        this.habitaciones[0] = new Habitacion("Sala de estar");
-        this.habitaciones[1] = new Habitacion("Cocina");
-        this.habitaciones[2] = new Habitacion("Comedor");
-        this.habitaciones[3] = new Habitacion("Sala de juegos");
-        this.habitaciones[4] = new Habitacion("Sala de estudio");
-        this.habitaciones[5] = new Habitacion("Dormitorio 1");
-        this.habitaciones[6] = new Habitacion("Dormitorio 2");
-        this.habitaciones[7] = new Habitacion("Baño");
-        this.habitaciones[8] = new Habitacion("Patio");
+        this.habitaciones = new Habitacion[7];
+        this.habitaciones[0] = new Habitacion("Caldera");
+        this.habitaciones[1] = new Habitacion("Sala de cableado");
+        this.habitaciones[2] = new Habitacion("Clase 13");
+        this.habitaciones[3] = new Habitacion("Clase 21");
+        this.habitaciones[4] = new Habitacion("Sala de Profesores");
+        this.habitaciones[5] = new Habitacion("Conserjería");
+        this.habitaciones[6] = new Habitacion("Salón de actos");
     }
 
     public List<Tarea> getTareas() {
@@ -96,21 +94,21 @@ public class Config {
 
     //
     public void crearDatosEjemplo() {
-        tareas.add(new Tarea("Limpiar la cocina", habitaciones[1]));
-        tareas.add(new Tarea("Hacer la cama", habitaciones[5]));
-        tareas.add(new Tarea("Estudiar", habitaciones[4]));
-        tareas.add(new Tarea("Cocinar", habitaciones[1]));
-        tareas.add(new Tarea("Limpiar el baño", habitaciones[7]));
-        tareas.add(new Tarea("Hacer la comida", habitaciones[2]));
-        tareas.add(new Tarea("Limpiar la sala de estar", habitaciones[0]));
-        tareas.add(new Tarea("Hacer la cena", habitaciones[2]));
-        tareas.add(new Tarea("Limpiar el patio", habitaciones[8]));
-        tareas.add(new Tarea("Hacer la compra", habitaciones[2]));
-        tareas.add(new Tarea("Limpiar el comedor", habitaciones[2]));
-        tareas.add(new Tarea("Hacer la colada", habitaciones[5]));
-        tareas.add(new Tarea("Limpiar el dormitorio 1", habitaciones[5]));
-        tareas.add(new Tarea("Hacer la merienda", habitaciones[0]));
-        tareas.add(new Tarea("Limpiar el dormitorio 2", habitaciones[6]));
+        tareas.add(new Tarea("Conectar cables", habitaciones[1]));
+        tareas.add(new Tarea("Buscar materiales", habitaciones[5]));
+        tareas.add(new Tarea("Buscar profesores", habitaciones[4]));
+        tareas.add(new Tarea("Cambiar fusibles", habitaciones[1]));
+        tareas.add(new Tarea("Estudiar", habitaciones[3]));
+        tareas.add(new Tarea("Rebuscar en los armarios", habitaciones[2]));
+        tareas.add(new Tarea("Regular presión", habitaciones[0]));
+        tareas.add(new Tarea("Pedir un rescate via mail", habitaciones[2]));
+        tareas.add(new Tarea("Limpiar la clase", habitaciones[3]));
+        tareas.add(new Tarea("Filosofar", habitaciones[2]));
+        tareas.add(new Tarea("Crear virus", habitaciones[2]));
+        tareas.add(new Tarea("Pedir un bolígrafo", habitaciones[5]));
+        tareas.add(new Tarea("Buscar las llaves", habitaciones[5]));
+        tareas.add(new Tarea("Arreglar la caldera", habitaciones[0]));
+        tareas.add(new Tarea("Aumentar la moral del grupo", habitaciones[6]));
         sortTareas();
 
         jugadores.add(new Jugador("@jua"));

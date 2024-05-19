@@ -23,12 +23,13 @@ public class Juego {
             if (checkFinRondaEstudiantes()) {
                 ganadores = "Estudiantes";
                 finalizar = true;
+                printFeed();
             }
             else if(checkFinRondaImpostores()){
                     ganadores = "Impostores";
                     finalizar = true;
+                    printFeed();
                 }
-            printFeed();
             if(!finalizar){
                 System.out.println("Elija un jugador para expulsar (ENTER para saltar expulsión esta ronda): ");
                 singleton.getConfig().printJugadores();
@@ -56,7 +57,7 @@ public class Juego {
                     nombre = singleton.getScanner().nextLine();
                 }
             }
-            
+            esperar(1000);
         }
 
         System.out.println("Ganan los " + ganadores);
@@ -177,9 +178,17 @@ public class Juego {
         for(Jugador jugador : singleton.getConfig().getJugadores()){
             if(jugador instanceof Impostor){
                 for(Estudiante estudiante : ((Impostor)jugador).getFeed()){
-                    System.out.println(jugador.getAlias() + " ha matado a " + estudiante.getAlias());
+                    System.out.println(jugador.getAlias() + " había matado a " + estudiante.getAlias());
                 }
             }
+        }
+    }
+    
+    public void esperar(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

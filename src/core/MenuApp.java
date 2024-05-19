@@ -86,7 +86,7 @@ class MenuItem extends ComponenteMenu {
                 int habitacionTarea = -1;
                 System.out.println("Escribe un nombre para la tarea: ");
                 String nombreTarea = sc.nextLine();
-                System.out.println("Escribe una habitación para la tarea (0-8): ");
+                System.out.println("Escribe una habitación para la tarea (0-6): ");
                 Singleton.getInstance().getConfig().printHabitaciones();
                 while (habitacionTarea == -1){
                     try {
@@ -106,9 +106,10 @@ class MenuItem extends ComponenteMenu {
             }
         
             case "deleteTarea": {
-                System.out.println("Escribe el nombre de la tarea a eliminar: ");
+                System.out.println("Escribe el numero de la tarea a eliminar: ");
                 Singleton.getInstance().getConfig().printTareas();
                 int numTarea = sc.nextInt();
+                sc.nextLine(); //limpiar buffer
                 if(inRange(numTarea, 0, singleton.getConfig().getTareas().size()-1)){
                     singleton.getConfig().getTareas().remove(numTarea);
                 }
@@ -135,7 +136,7 @@ class MenuItem extends ComponenteMenu {
             }
 
             case "deleteJugador": {
-                System.out.println("Escribe el nombre del jugador a eliminar: ");
+                System.out.println("Escribe el número del jugador a eliminar: ");
                 singleton.getConfig().printJugadores();
                 int numJugador = sc.nextInt();
                 sc.nextLine(); //limpiar buffer
@@ -171,7 +172,6 @@ class MenuItem extends ComponenteMenu {
             default:
                 break;
         }
-
         this.padre.ejecutar();
     }
 }
